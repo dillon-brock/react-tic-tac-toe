@@ -7,9 +7,5 @@ export default function Box({ box, index }) {
 
   const { takeTurn } = useContext(GameContext);
 
-  const handleClick = () => {
-    takeTurn(index);
-  };
-
-  return <div className='box' onClick={handleClick}>{box}</div>;
+  return <div className='box' onClick={() => takeTurn(index)}>{box}</div>;
 }

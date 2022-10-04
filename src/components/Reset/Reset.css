@@ -1,0 +1,11 @@
+.reset-button {
+  margin-top: 30px;
+  background-color: rgb(50, 50, 136);
+  color: aliceblue;
+  padding: 15px 20px;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 600;
+}

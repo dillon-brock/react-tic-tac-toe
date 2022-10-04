@@ -18,19 +18,20 @@ const GameProvider = ({ children }) => {
     [0, 4, 8],
     [2, 4, 6]];
 
-  const checkGameEnd = (boardCopy) => {
+  const checkGameEnd = () => {
+    if (!active) return;
     let fullBoard = false;
     let winner = false;
-    if (!boardCopy.includes('')) fullBoard = true;
+    if (!board.includes('')) fullBoard = true;
     for (const win of wins) {
-      let checkedRow = boardCopy.filter((box, i) => win.includes(i));
+      let checkedRow = board.filter((box, i) => win.includes(i));
       if (checkedRow.includes('')) continue;
       winner = checkedRow.reduce((a, b) => (a === b) ? a : false);
       if (winner) break;
     }
     if (winner) {
       setActive(false);
-      setGameMessage(`${currentPlayer} wins!`);
+      setGameMessage(`${winner} wins!`);
     }
     else if (fullBoard) {
       setActive(false);
@@ -40,16 +41,22 @@ const GameProvider = ({ children }) => {
 
   const takeTurn = (index) => {
     if (board[index] === '' && active) {
-      const boardCopy = board;
-      boardCopy[index] = currentPlayer;
       setBoard(prevState => prevState.map((val, i) => i === index ? currentPlayer : val));
       setCurrentPlayer(prevPlayer => prevPlayer === 'X' ? 'O' : 'X');
       setGameMessage(`Your Turn ${currentPlayer === 'X' ? 'O' : 'X'}`);
-      checkGameEnd(boardCopy);
     }
   };
 
-  return <GameContext.Provider value={{ board, setBoard, currentPlayer, setCurrentPlayer, gameMessage, active, takeTurn }}>{children}</GameContext.Provider>;
+  const resetGame = () => {
+    setBoard(Array(9).fill(''));
+    setCurrentPlayer('X');
+    setGameMessage(`Your Turn X`);
+    setActive(true);
+  };
+
+  checkGameEnd();
+
+  return <GameContext.Provider value={{ board, setBoard, currentPlayer, setCurrentPlayer, gameMessage, active, takeTurn, resetGame }}>{children}</GameContext.Provider>;
 };
 
 export { GameContext, GameProvider };
