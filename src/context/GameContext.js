@@ -18,12 +18,12 @@ const GameProvider = ({ children }) => {
     [0, 4, 8],
     [2, 4, 6]];
 
-  const checkGameEnd = () => {
+  const checkGameEnd = (boardCopy) => {
     let fullBoard = false;
     let winner = false;
-    if (!board.filter(box => box === '').length) fullBoard = true;
+    if (!boardCopy.includes('')) fullBoard = true;
     for (const win of wins) {
-      let checkedRow = board.filter((box, i) => win.includes(i));
+      let checkedRow = boardCopy.filter((box, i) => win.includes(i));
       if (checkedRow.includes('')) continue;
       winner = checkedRow.reduce((a, b) => (a === b) ? a : false);
       if (winner) break;
@@ -40,10 +40,12 @@ const GameProvider = ({ children }) => {
 
   const takeTurn = (index) => {
     if (board[index] === '' && active) {
+      const boardCopy = board;
+      boardCopy[index] = currentPlayer;
       setBoard(prevState => prevState.map((val, i) => i === index ? currentPlayer : val));
       setCurrentPlayer(prevPlayer => prevPlayer === 'X' ? 'O' : 'X');
-      setGameMessage(`Your Turn ${currentPlayer}`);
-      checkGameEnd();
+      setGameMessage(`Your Turn ${currentPlayer === 'X' ? 'O' : 'X'}`);
+      checkGameEnd(boardCopy);
     }
   };
 
