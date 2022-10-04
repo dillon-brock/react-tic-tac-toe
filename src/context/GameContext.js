@@ -49,7 +49,7 @@ const GameProvider = ({ children }) => {
     }
   };
 
-  return <GameContext.Provider value={{ board, setBoard, currentPlayer, setCurrentPlayer, gameMessage, takeTurn }}>{children}</GameContext.Provider>;
+  return <GameContext.Provider value={{ board, setBoard, currentPlayer, setCurrentPlayer, gameMessage, active, takeTurn }}>{children}</GameContext.Provider>;
 };
 
 export { GameContext, GameProvider };
